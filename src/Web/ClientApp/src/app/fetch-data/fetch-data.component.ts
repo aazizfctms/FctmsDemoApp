@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { WeatherForecastsClient, WeatherForecast } from '../web-api-client';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-fetch-data',
@@ -8,8 +9,10 @@ import { WeatherForecastsClient, WeatherForecast } from '../web-api-client';
 export class FetchDataComponent {
   public forecasts: WeatherForecast[] = [];
 
+  public loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public filters = {
-    weather: ""
+    weather: "",
+    temp: null
   };
 
   constructor(private client: WeatherForecastsClient) {
@@ -21,9 +24,11 @@ export class FetchDataComponent {
   }
 
   private refresh() {
-    this.client.getWeatherForecasts(this.filters.weather).subscribe({
-      next: result => this.forecasts = result,
-      error: error => console.error(error)
-    });
+    this.loading$.next(true);
+    this.client.getWeatherForecasts(this.filters.weather, this.filters.temp || null).subscribe(
+      result => this.forecasts = result,
+      error => console.error(error),
+      () => this.loading$.next(false)
+    );
   }
 }

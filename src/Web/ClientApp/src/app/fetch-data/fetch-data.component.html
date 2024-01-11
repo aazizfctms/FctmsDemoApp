@@ -2,14 +2,20 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<p *ngIf="!forecasts?.length"><em>Loading...</em></p>
+<p *ngIf="(loading$ | async) === true"><em>Loading...</em></p>
 
 <div class="row">
   <div class="col-1">Weather</div>
   <div class="col-4">
     <input [(ngModel)]="filters.weather" (ngModelChange)="filterChanged()">
   </div>
+  <div class="col-1">Temp (C)</div>
+  <div class="col-4">
+    <input type=number [(ngModel)]="filters.temp" (ngModelChange)="filterChanged()">
+  </div>
 </div>
+
+<p *ngIf="!forecasts?.length"><em>No Results</em></p>
 
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts.length">
   <thead>

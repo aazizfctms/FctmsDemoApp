@@ -3,6 +3,7 @@
 public record GetWeatherForecastsQuery() : IRequest<IEnumerable<WeatherForecast>>
 {
     public string Weather { get; set; } = "";
+    public int? Temp { get; set; }
 }
 
 public class GetWeatherForecastsQueryHandler : IRequestHandler<GetWeatherForecastsQuery, IEnumerable<WeatherForecast>>
@@ -29,7 +30,12 @@ public class GetWeatherForecastsQueryHandler : IRequestHandler<GetWeatherForecas
         {
             result = result.Where(x => request.Weather.Equals(x.Summary, StringComparison.InvariantCultureIgnoreCase));
         }
-        
+
+        if (request.Temp.HasValue)
+        {
+            result = result.Where(x => x.TemperatureC == request.Temp);
+        }
+
         return result;
     }
 }

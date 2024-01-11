@@ -313,6 +313,16 @@
               "nullable": true
             },
             "x-position": 1
+          },
+          {
+            "name": "Temp",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
           }
         ],
         "responses": {

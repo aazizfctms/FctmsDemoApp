@@ -23,7 +23,7 @@
               {{ list.title }}
             </div>
             <div class="float-end text-right">
-              <span class="badge badge-light">{{ remainingItems(list) }}</span>
+              <span class="badge badge-light" [ngStyle]="{'color': selectedList == list ? 'white': 'black'}">{{ remainingItems(list) }}</span>
             </div>
           </div>
         </li>
